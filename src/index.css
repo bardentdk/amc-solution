@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Open+Sans:wght@400;600&family=Poppins:wght@300;400;500;600;700&display=swap');
+@plugin "@tailwindcss/typography";
+/* Import principal de Tailwind v4 */
+@import "tailwindcss";
+
+/* Configuration de ta charte graphique via la nouvelle directive @theme */
+@theme {
+  --color-primary: #00674F;
+  --color-secondary: #00674F;
+  --color-creamy: #fffdd0;
+  --color-dark: #1a1a1a;
+  
+  --font-sans: 'Poppins', 'Inter', 'Open Sans', sans-serif;
+  
+  --shadow-bento: 0 4px 6px -1px rgba(0, 103, 79, 0.1), 0 2px 4px -1px rgba(0, 103, 79, 0.06);
+}
+
+/* Styles globaux (remplace les @apply sur le body pour une syntaxe plus native) */
+@layer base {
+  body {
+    background-color: var(--color-creamy);
+    color: var(--color-dark);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: var(--color-primary);
+    color: white;
+  }
+}
+
+/* Styles personnalisés pour la scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background-color: var(--color-creamy);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 9999px;
+}
