@@ -13,6 +13,7 @@ import {
   MessageSquare
 } from 'lucide-react';
 import { Logo } from '../ui/Logo';
+// import Logo from "/logo.svg"
 
 export const AdminSidebar = () => {
   // État pour gérer l'ouverture/fermeture du menu
@@ -50,7 +51,7 @@ export const AdminSidebar = () => {
         {/* Logo */}
         <div className="flex flex-col items-center mb-6 shrink-0">
           <div className="bg-creamy p-1.5 rounded-full mb-1 shadow-inner">
-             <Logo className="w-6 h-6" />
+             <Logo className="w-[50%]" />
           </div>
           <span className={`text-white text-[9px] font-bold tracking-[0.15em] transition-all duration-300 overflow-hidden ${isCollapsed ? 'opacity-0 h-0' : 'opacity-100 h-auto'}`}>
             AMC

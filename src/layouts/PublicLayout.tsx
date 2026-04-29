@@ -18,7 +18,7 @@ export default function PublicLayout() {
         <Outlet />
       </main>
 
-      <footer className="bg-primary text-creamy py-8 mt-auto">
+      <footer className="bg-gradient-to-r from-emerald-500 to-teal-400 text-creamy py-8 mt-auto">
         <div className="container mx-auto px-4 text-center text-sm opacity-80">
           © {new Date().getFullYear()} AMC - Accompagnement des Étrangers. Tous droits réservés.
         </div>

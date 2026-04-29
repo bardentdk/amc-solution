@@ -5,10 +5,19 @@
 
 /* Configuration de ta charte graphique via la nouvelle directive @theme */
 @theme {
-  --color-primary: #069494;
+  /* V3 */
+  --color-primary: #00a896;
+  --color-secondary: #8f2d56;
+  --color-creamy: #edf6f9;
+  --color-dark: #16697a;
+
+  /* V2 */
+  /* --color-primary: #069494;
   --color-secondary: #00674F;
   --color-creamy: #fffdd0;
-  --color-dark: #1a1a1a;
+  --color-dark: #1a1a1a; */
+
+  /* V1 */
   /* --color-primary: #00674F;
   --color-secondary: #00674F;
   --color-creamy: #fffdd0;

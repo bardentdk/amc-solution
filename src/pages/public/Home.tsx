@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowRight, CheckCircle, ShieldCheck, XCircle, Star, Quote, Loader2, 
   Mail, Send, GraduationCap, Briefcase, HeartHandshake, Sparkles, 
-  Search, FileText, Fingerprint, ChevronDown
+  Search, FileText, Fingerprint, ChevronDown, CheckCircle2
 } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { supabase } from '../../lib/supabase';
@@ -91,7 +91,7 @@ export default function Home() {
           <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="flex flex-col items-center z-100">
             <motion.span variants={fadeInUp} className="text-primary font-semibold tracking-wider uppercase text-sm mb-4">Cabinet d'Expertise AMC</motion.span>
             <motion.h1 variants={fadeInUp} className="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight max-w-4xl font-sans">
-              Votre partenaire de confiance pour l'obtention de votre <span className="text-primary">Titre de Séjour</span>.
+              Votre partenaire de confiance pour l'obtention de votre <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400">Titre de Séjour</span>.
             </motion.h1>
             <motion.p variants={fadeInUp} className="text-lg text-dark/70 mb-10 max-w-2xl font-sans">
               Gagnez du temps, évitez les erreurs fatales et sécurisez votre avenir en France avec notre équipe d'experts juridiques.
@@ -167,7 +167,7 @@ export default function Home() {
               </ul>
             </motion.div>
             {/* Avec AMC */}
-            <motion.div variants={fadeInUp} className="flex-1 bg-primary text-white rounded-[2.5rem] p-8 md:p-10 shadow-xl shadow-primary/20 relative overflow-hidden group">
+            <motion.div variants={fadeInUp} className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-400 text-white rounded-[2.5rem] p-8 md:p-10 shadow-xl shadow-primary/20 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-6 opacity-10 text-creamy group-hover:scale-110 transition-transform"><ShieldCheck size={100} /></div>
               <h3 className="text-2xl font-bold text-creamy mb-8 font-sans flex items-center gap-3"><CheckCircle className="text-emerald-300" /> Avec l'expertise AMC</h3>
               <ul className="space-y-6 relative z-10">
@@ -211,25 +211,107 @@ export default function Home() {
       </section>
 
       {/* 6. OFFRES */}
-      <section className="py-24 bg-creamy">
+      {/* --- SECTION OFFRES PREMIUM (HOME) --- */}
+      <section className="py-24 bg-creamy border-t border-white/50">
         <div className="container mx-auto max-w-6xl px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-dark mb-4 font-sans">Nos Formules d'Accompagnement</h2>
+            <motion.span 
+              initial={{ opacity: 0 }} 
+              whileInView={{ opacity: 1 }} 
+              className="text-primary font-bold tracking-widest uppercase text-xs mb-3 block"
+            >
+              Nos Formules
+            </motion.span>
+            <h2 className="text-3xl md:text-5xl font-bold text-dark mb-4 font-sans tracking-tight">
+              L'accompagnement qui vous <span className="text-primary">correspond</span>.
+            </h2>
+            <p className="text-dark/60 max-w-2xl mx-auto font-sans">
+              Des tarifs clairs, sans surprise, pour une prise en charge totale de votre dossier.
+            </p>
           </div>
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="grid grid-cols-1 md:grid-cols-3 gap-8 justify-center">
-            {offers.map((offer) => (
-              <motion.div key={offer.id} variants={fadeInUp} className="bg-white rounded-3xl shadow-bento p-8 flex flex-col h-full group hover:-translate-y-2 transition-transform duration-300">
-                <div className="mb-8"><h3 className="text-2xl font-bold text-dark mb-2">{offer.title}</h3><p className="text-dark/60 text-sm h-10">{offer.description}</p></div>
-                <div className="mb-8"><span className="text-4xl font-bold text-primary">{offer.price}€</span><span className="text-dark/50 ml-2 text-sm">TTC</span></div>
-                <ul className="space-y-4 mb-8 flex-1">
-                  {offer.features?.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-3"><CheckCircle size={20} className="text-primary shrink-0 mt-0.5" /><span className="text-dark/80 text-sm">{feature}</span></li>
-                  ))}
-                </ul>
-                <Link to="/contact" className="mt-auto w-full"><Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-white">Choisir cette offre</Button></Link>
-              </motion.div>
-            ))}
-          </motion.div>
+
+          {loading ? (
+            <div className="flex justify-center py-20"><Loader2 className="animate-spin text-primary" size={40} /></div>
+          ) : (
+            <motion.div 
+              initial="hidden" 
+              whileInView="visible" 
+              viewport={{ once: true }} 
+              variants={staggerContainer} 
+              className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center"
+            >
+              {offers.slice(0, 3).map((offer, index) => {
+                // On applique le style "Premium" à la carte du milieu (index 1)
+                const isFeatured = index === 1;
+
+                return (
+                  <motion.div 
+                    key={offer.id} 
+                    variants={fadeInUp} 
+                    className={`relative flex flex-col h-full rounded-[2.5rem] p-8 md:p-10 transition-all duration-500 ${
+                      isFeatured 
+                        ? 'bg-dark text-white shadow-2xl shadow-dark/30 scale-100 md:scale-105 z-10 border border-white/10' 
+                        : 'bg-white text-dark shadow-bento hover:-translate-y-2'
+                    }`}
+                  >
+                    {isFeatured && (
+                      <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-emerald-400 to-teal-400 text-dark font-bold px-6 py-2 rounded-full text-[10px] uppercase tracking-widest flex items-center gap-2 shadow-lg">
+                        <Zap size={14} className="fill-dark" /> Le plus populaire
+                      </div>
+                    )}
+
+                    <div className="mb-8">
+                      <h3 className={`text-2xl font-bold mb-3 font-sans ${isFeatured ? 'text-white' : 'text-dark'}`}>
+                        {offer.title}
+                      </h3>
+                      <p className={`text-sm leading-relaxed font-sans ${isFeatured ? 'text-creamy/60' : 'text-dark/50'}`}>
+                        {offer.description}
+                      </p>
+                    </div>
+
+                    <div className="mb-8 pb-8 border-b border-opacity-10 border-gray-400">
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-5xl font-black tracking-tighter">{offer.price}€</span>
+                        <span className={`text-xs font-bold uppercase tracking-widest ${isFeatured ? 'text-creamy/40' : 'text-dark/30'}`}>
+                          TTC
+                        </span>
+                      </div>
+                    </div>
+
+                    <ul className="space-y-4 mb-10 flex-1">
+                      {offer.features?.map((feature, idx) => (
+                        <li key={idx} className="flex items-start gap-3">
+                          <CheckCircle2 size={18} className={`shrink-0 mt-0.5 ${isFeatured ? 'text-emerald-400' : 'text-primary'}`} />
+                          <span className={`text-sm font-sans ${isFeatured ? 'text-creamy/80' : 'text-dark/70'}`}>
+                            {feature}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <Link to="/contact" className="mt-auto w-full">
+                      <Button 
+                        variant={isFeatured ? 'primary' : 'outline'} 
+                        className={`w-full h-14 rounded-2xl font-bold text-sm uppercase tracking-widest transition-all ${
+                          isFeatured 
+                            ? 'bg-primary hover:bg-emerald-500 text-white border-none shadow-xl shadow-primary/20' 
+                            : 'hover:bg-creamy border-creamy'
+                        }`}
+                      >
+                        Choisir ce pack
+                      </Button>
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          )}
+          
+          <div className="mt-16 text-center">
+            <Link to="/offres" className="inline-flex items-center gap-2 text-dark/40 hover:text-primary font-bold text-sm uppercase tracking-widest transition-all group">
+              Comparer toutes nos solutions <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -319,7 +401,7 @@ export default function Home() {
       </section>
 
       {/* 10. NEWSLETTER (LEAD MAGNET) */}
-      <section className="py-24 bg-dark relative overflow-hidden">
+      <section className="py-24 bg-gradient-to-r from-emerald-500 to-teal-400 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary via-dark to-dark"></div>
         <div className="container mx-auto max-w-4xl px-4 text-center relative z-10">
           <div className="inline-flex items-center justify-center p-4 bg-primary/20 rounded-full text-primary mb-6">
