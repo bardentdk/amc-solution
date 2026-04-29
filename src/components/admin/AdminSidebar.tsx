@@ -50,8 +50,8 @@ export const AdminSidebar = () => {
         
         {/* Logo */}
         <div className="flex flex-col items-center mb-6 shrink-0">
-          <div className="bg-creamy p-1.5 rounded-full mb-1 shadow-inner">
-             <Logo className="w-[50%]" />
+          <div className=" p-1.5 rounded-full mb-1">
+             <Logo className="h-25" />
           </div>
           <span className={`text-white text-[9px] font-bold tracking-[0.15em] transition-all duration-300 overflow-hidden ${isCollapsed ? 'opacity-0 h-0' : 'opacity-100 h-auto'}`}>
             AMC

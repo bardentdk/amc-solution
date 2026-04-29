@@ -86,7 +86,7 @@ export default function Home() {
       <section className="relative pt-32 pb-20 md:pt-48 md:pb-24 px-4 bg-creamy">
         <div className="container mx-auto max-w-6xl text-center">
           <motion.div className='z-50'>
-            <img src="https://www.guyon-avocat.fr/wp-content/uploads/2024/10/david-guyon-avocat.png" alt="" className='absolute left-[-10%] w-[30%] bottom-0 '/>
+            <img src="https://www.guyon-avocat.fr/wp-content/uploads/2024/10/david-guyon-avocat.png" alt="" className='absolute left-[-5%] w-[20%] bottom-0 '/>
           </motion.div>
           <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="flex flex-col items-center z-100">
             <motion.span variants={fadeInUp} className="text-primary font-semibold tracking-wider uppercase text-sm mb-4">Cabinet d'Expertise AMC</motion.span>
@@ -102,12 +102,12 @@ export default function Home() {
             </motion.div>
           </motion.div>
           <motion.div className='z-50'>
-            <div>
+            {/* <div>
               <img src="https://static.vecteezy.com/system/resources/thumbnails/028/754/037/small/law-hammer-3d-icon-illustrations-png.png" alt="" className='absolute right-[-5%] w-[20%] bottom-0 z-100 '/>
             </div>
             <div >
               <img src="https://png.pngtree.com/png-clipart/20250714/original/pngtree-law-book-3d-icon-png-image_21316805.png" alt="" className='absolute top-50 animate-pulse right-[1%] w-[20%] bottom-0 z-100 '/>
-            </div>
+            </div> */}
           </motion.div>
         </div>
       </section>

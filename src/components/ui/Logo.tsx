@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Logo: React.FC<{ className?: string }> = ({ className }) => {
+export const Logo: React.FC<{ className?: string}> = ({ className }) => {
   return (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" zoomAndPan="magnify" viewBox="0 0 306.75 135.750003" preserveAspectRatio="xMidYMid meet" version="1.0">
       <defs>
