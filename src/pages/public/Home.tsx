@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowRight, CheckCircle, ShieldCheck, XCircle, Star, Quote, Loader2, 
   Mail, Send, GraduationCap, Briefcase, HeartHandshake, Sparkles, 
-  Search, FileText, Fingerprint, ChevronDown, CheckCircle2
+  Search, FileText, Fingerprint, ChevronDown, CheckCircle2,
+  Zap
 } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { supabase } from '../../lib/supabase';
@@ -85,13 +86,10 @@ export default function Home() {
       {/* 1. HERO SECTION */}
       <section className="relative pt-32 pb-20 md:pt-48 md:pb-24 px-4 bg-creamy">
         <div className="container mx-auto max-w-6xl text-center">
-          <motion.div className='z-50'>
-            <img src="https://www.guyon-avocat.fr/wp-content/uploads/2024/10/david-guyon-avocat.png" alt="" className='absolute left-[-5%] w-[20%] bottom-0 '/>
-          </motion.div>
           <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="flex flex-col items-center z-100">
             <motion.span variants={fadeInUp} className="text-primary font-semibold tracking-wider uppercase text-sm mb-4">Cabinet d'Expertise AMC</motion.span>
             <motion.h1 variants={fadeInUp} className="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight max-w-4xl font-sans">
-              Votre partenaire de confiance pour l'obtention de votre <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400">Titre de Séjour</span>.
+              Votre partenaire de confiance pour l'obtention de votre <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-400">Titre de Séjour</span>.
             </motion.h1>
             <motion.p variants={fadeInUp} className="text-lg text-dark/70 mb-10 max-w-2xl font-sans">
               Gagnez du temps, évitez les erreurs fatales et sécurisez votre avenir en France avec notre équipe d'experts juridiques.
@@ -100,14 +98,6 @@ export default function Home() {
               <Link to="/contact"><Button variant="primary" className="h-14 px-8 text-lg w-full sm:w-auto shadow-lg shadow-primary/20">Démarrer mon dossier</Button></Link>
               <Link to="/offres"><Button variant="outline" className="h-14 px-8 text-lg w-full sm:w-auto bg-white">Voir nos formules</Button></Link>
             </motion.div>
-          </motion.div>
-          <motion.div className='z-50'>
-            {/* <div>
-              <img src="https://static.vecteezy.com/system/resources/thumbnails/028/754/037/small/law-hammer-3d-icon-illustrations-png.png" alt="" className='absolute right-[-5%] w-[20%] bottom-0 z-100 '/>
-            </div>
-            <div >
-              <img src="https://png.pngtree.com/png-clipart/20250714/original/pngtree-law-book-3d-icon-png-image_21316805.png" alt="" className='absolute top-50 animate-pulse right-[1%] w-[20%] bottom-0 z-100 '/>
-            </div> */}
           </motion.div>
         </div>
       </section>
@@ -192,7 +182,7 @@ export default function Home() {
             <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-creamy -translate-y-1/2 z-0"></div>
             
             {[
-              { icon: Search, step: "01", title: "Diagnostic gratuit", desc: "Analyse complète de votre situation juridique lors d'un premier échange." },
+              { icon: Search, step: "01", title: "Diagnostic & Devis", desc: "Analyse complète de votre situation juridique lors d'un premier échange." },
               { icon: FileText, step: "02", title: "Montage du dossier", desc: "Collecte, vérification et optimisation de chaque document exigé." },
               { icon: CheckCircle, step: "03", title: "Dépôt & Suivi", desc: "Nous soumettons votre dossier et gérons les échanges avec la préfecture." },
               { icon: Fingerprint, step: "04", title: "Obtention", desc: "Vous récupérez votre titre de séjour sereinement." }
@@ -273,7 +263,7 @@ export default function Home() {
                       <div className="flex items-baseline gap-1">
                         <span className="text-5xl font-black tracking-tighter">{offer.price}€</span>
                         <span className={`text-xs font-bold uppercase tracking-widest ${isFeatured ? 'text-creamy/40' : 'text-dark/30'}`}>
-                          TTC
+                          HT
                         </span>
                       </div>
                     </div>

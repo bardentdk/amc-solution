@@ -9,6 +9,7 @@ const links = [
   { name: 'Accueil', path: '/' },
   { name: 'Qui sommes-nous ?', path: '/qui-sommes-nous' },
   { name: 'Notre offre', path: '/nos-offres' },
+  { name: 'Interprétariat', path: '/interpretariat'},
   { name: 'Blog', path: '/blog' },
 ];
 
@@ -40,7 +41,7 @@ export default function Navbar({ isAdmin }: { isAdmin?: boolean }) {
       <div className="container mx-auto px-4 md:px-8 flex justify-between items-center">
         {/* Logo */}
         <NavLink to="/" className="flex items-center gap-3 group">
-          <Logo className="h-25 transition-transform group-hover:scale-105" />
+          <Logo className="h-10 sm:h-15 transition-transform group-hover:scale-105" />
           {/* <img src="/logo.png" alt="" width={100}/> */}
           {/* <span className="font-bold text-xl tracking-tight text-primary">AMC</span> */}
         </NavLink>

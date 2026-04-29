@@ -114,21 +114,21 @@ export default function Contact() {
                   <Phone className="mt-1 text-creamy" />
                   <div>
                     <p className="text-sm text-creamy/70 font-sans mb-1">Téléphone</p>
-                    <p className="font-semibold text-lg font-sans">01 23 45 67 89</p>
+                    <p className="font-semibold text-lg font-sans">0693 711 811</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <Mail className="mt-1 text-creamy" />
                   <div>
                     <p className="text-sm text-creamy/70 font-sans mb-1">Email professionnel</p>
-                    <p className="font-semibold text-lg font-sans">dtambon@australeformation.com</p>
+                    <p className="font-semibold text-lg font-sans">pmamode@amconseils.org</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <MapPin className="mt-1 text-creamy" />
                   <div>
                     <p className="text-sm text-creamy/70 font-sans mb-1">Adresse postale</p>
-                    <p className="font-semibold text-lg font-sans">123 Avenue de la République<br/>75011 Paris, France</p>
+                    <p className="font-semibold text-lg font-sans">68 rue Tessan,<br/>97490 Sainte-Clotilde, Réunion</p>
                   </div>
                 </div>
               </div>

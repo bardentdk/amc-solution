@@ -54,3 +54,34 @@ export interface Testimonial {
   is_published: boolean;
   created_at: string;
 }
+
+export interface InterpretariatMessage {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone?: string;
+  languages?: string;
+  message: string;
+  status: string;
+  created_at: string;
+}
+
+export interface ClientDossier {
+  id: string;
+  client_id: string;
+  title: string;
+  status: 'nouveau' | 'en_preparation' | 'depose' | 'en_attente' | 'valide' | 'refuse';
+  progress_percentage: number;
+  created_at: string;
+}
+
+export interface ClientDocument {
+  id: string;
+  client_id: string;
+  dossier_id?: string;
+  file_name: string;
+  file_path: string;
+  status: 'en_attente_verification' | 'valide' | 'rejete';
+  created_at: string;
+}

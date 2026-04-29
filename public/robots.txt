@@ -1,0 +1,13 @@
+# Fichier robots.txt pour AMC Expertise
+
+User-agent: *
+# On empêche Google d'indexer les pages privées et l'administration
+Disallow: /admin/
+Disallow: /login
+
+# On autorise tout le reste (c'est le comportement par défaut, mais c'est bien de le préciser)
+Allow: /
+
+# Lien vers le plan du site (Sitemap) pour aider Google à trouver tes articles de blog
+# (À remplacer par ton vrai nom de domaine une fois le site en ligne)
+Sitemap: https://www.amc-expert.fr/sitemap.xml

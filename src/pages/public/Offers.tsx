@@ -79,7 +79,7 @@ export default function Offers() {
                     <div className="mb-8 pb-8 border-b border-opacity-20 border-gray-400">
                       <div className="flex items-baseline gap-2">
                         <span className="text-5xl font-extrabold tracking-tight">{offer.price}€</span>
-                        <span className={`text-sm font-medium ${isPremium ? 'text-creamy/50' : 'text-dark/40'}`}>TTC</span>
+                        <span className={`text-sm font-medium ${isPremium ? 'text-creamy/50' : 'text-dark/40'}`}>HT</span>
                       </div>
                     </div>
 

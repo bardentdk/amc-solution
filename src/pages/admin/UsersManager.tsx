@@ -1,156 +1,157 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, Shield, User, Plus, Mail, X } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { UserPlus, Mail, Trash2, Search, Loader2, ExternalLink, ShieldCheck } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
+import { motion } from 'framer-motion'; // NOUVEAU : Import nécessaire pour l'animation de la modale
 
 export default function UsersManager() {
-  const [profiles, setProfiles] = useState<any[]>([]);
+  const [clients, setClients] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  
-  // États pour la création d'utilisateur
-  const [isCreating, setIsCreating] = useState(false);
-  const [newUserEmail, setNewUserEmail] = useState('');
-  const [newUserName, setNewUserName] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const fetchProfiles = async () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newClient, setNewClient] = useState({ email: '', first_name: '', last_name: '' });
+  const [inviting, setInviting] = useState(false);
+
+  const fetchClients = async () => {
     setLoading(true);
-    const { data } = await supabase.from('profiles').select('*').order('created_at', { ascending: false });
-    if (data) setProfiles(data);
+    // On récupère les profils qui ont le rôle 'client'
+    const { data } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('role', 'client')
+      .order('created_at', { ascending: false });
+    
+    if (data) setClients(data);
     setLoading(false);
   };
 
-  useEffect(() => {
-    fetchProfiles();
-  }, []);
+  useEffect(() => { fetchClients(); }, []);
 
-  const handleCreateUser = async (e: React.FormEvent) => {
+  const filteredClients = clients.filter(c => 
+    `${c.first_name} ${c.last_name}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    c.email?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleInvite = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    // En Serverless (sans backend Node.js), on ne peut pas créer un compte auth pour un tiers
-    // sans se déconnecter. La bonne méthode est d'utiliser une Supabase Edge Function
-    // ou d'envoyer un lien magique (Magic Link) via l'API Admin.
-    
-    // Ceci est une simulation UI pour te permettre de continuer ton intégration visuelle.
-    setTimeout(() => {
-      alert(`Simulation : Un email d'invitation avec un lien de création de mot de passe serait envoyé à ${newUserEmail}.\n\nPour activer la vraie création côté admin, nous devrons configurer une Edge Function Supabase (via la clé Service Role) ou activer les Magic Links.`);
-      setIsSubmitting(false);
-      setIsCreating(false);
-      setNewUserEmail('');
-      setNewUserName('');
-    }, 1500);
-  };
+    setInviting(true);
 
-  if (loading) return <div className="flex justify-center pt-20"><Loader2 className="animate-spin text-primary" size={40} /></div>;
+    try {
+      const { data, error } = await supabase.functions.invoke('invite-client', {
+        body: newClient
+      });
+
+      if (error) throw error;
+
+      alert(`Invitation envoyée avec succès à ${newClient.email}`);
+      setIsModalOpen(false);
+      setNewClient({ email: '', first_name: '', last_name: '' });
+      fetchClients(); // Actualise la liste
+    } catch (err: any) {
+      alert("Erreur lors de l'invitation : " + err.message);
+    } finally {
+      setInviting(false);
+    }
+  };
 
   return (
     <div className="h-full flex flex-col pb-8">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-dark mb-2 font-sans">Utilisateurs</h1>
-          <p className="text-dark/60 font-sans">Gérez les accès à l'espace client.</p>
+          <h1 className="text-3xl font-bold text-dark mb-2 font-sans">Gestion des Clients</h1>
+          <p className="text-dark/60 font-sans">Créez et gérez les accès de vos clients au portail sécurisé.</p>
         </div>
-        {!isCreating && (
-          <Button variant="primary" onClick={() => setIsCreating(true)}>
-            <Plus size={20} className="mr-2" /> Inviter un client
-          </Button>
-        )}
+        <Button variant="primary" onClick={() => setIsModalOpen(true)}>
+          <UserPlus size={20} className="mr-2" /> Inviter un nouveau client
+        </Button>
       </div>
 
-      <AnimatePresence mode="wait">
-        {isCreating && (
-          <motion.div 
-            initial={{ opacity: 0, height: 0, marginBottom: 0 }} 
-            animate={{ opacity: 1, height: 'auto', marginBottom: 32 }} 
-            exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-            className="overflow-hidden"
-          >
-            <div className="bg-white rounded-3xl shadow-bento p-8 relative">
-              <button 
-                onClick={() => setIsCreating(false)}
-                className="absolute top-6 right-6 text-dark/40 hover:text-dark transition-colors"
-              >
-                <X size={24} />
-              </button>
-              
-              <h2 className="text-xl font-bold text-dark mb-6">Créer un accès client</h2>
-              <form onSubmit={handleCreateUser} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-dark/80 mb-2">Nom / Prénom du client</label>
-                  <input 
-                    type="text" 
-                    value={newUserName}
-                    onChange={(e) => setNewUserName(e.target.value)}
-                    className="w-full bg-creamy/50 border border-transparent rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary outline-none"
-                    placeholder="Jean Dupont"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-dark/80 mb-2">Adresse Email</label>
-                  <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-dark/40" size={20} />
-                    <input 
-                      type="email" 
-                      value={newUserEmail}
-                      onChange={(e) => setNewUserEmail(e.target.value)}
-                      className="w-full bg-creamy/50 border border-transparent rounded-xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-primary outline-none"
-                      placeholder="jean.dupont@email.com"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="md:col-span-2">
-                  <p className="text-sm text-dark/60 bg-primary/5 p-4 rounded-xl border border-primary/10">
-                    ℹ️ Un email automatique sera envoyé à cette adresse. Le client devra cliquer sur le lien pour configurer son mot de passe et activer son espace personnel.
-                  </p>
-                </div>
-                <div className="md:col-span-2 flex justify-end">
-                  <Button type="submit" variant="primary" disabled={isSubmitting}>
-                    {isSubmitting ? <><Loader2 className="animate-spin mr-2" size={18} /> Envoi en cours...</> : 'Envoyer l\'invitation'}
-                  </Button>
-                </div>
-              </form>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* BARRE DE RECHERCHE */}
+      <div className="relative mb-6">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-dark/30" size={20} />
+        <input 
+          type="text" 
+          placeholder="Rechercher un client par nom ou email..." 
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full bg-white border border-creamy rounded-2xl pl-12 pr-4 py-4 outline-none focus:ring-2 focus:ring-primary/20 shadow-sm font-sans"
+        />
+      </div>
 
-      <div className="bg-white rounded-3xl shadow-bento overflow-hidden">
+      <div className="bg-white rounded-[2.5rem] shadow-sm border border-creamy overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-creamy/50 text-dark/60 text-sm uppercase tracking-wider">
-              <th className="p-4 font-medium">Utilisateur</th>
-              <th className="p-4 font-medium">Email</th>
-              <th className="p-4 font-medium">Rôle</th>
-              <th className="p-4 font-medium">Date d'inscription</th>
+            <tr className="bg-creamy/50 text-dark/50 text-[10px] uppercase font-bold tracking-widest border-b border-creamy">
+              <th className="p-6">Identité du client</th>
+              <th className="p-6">Dossiers</th>
+              <th className="p-6">Statut Compte</th>
+              <th className="p-6 text-right">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-creamy">
-            {profiles.map(p => (
-              <tr key={p.id} className="hover:bg-creamy/20 transition-colors">
-                <td className="p-4 font-medium text-dark font-sans flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs uppercase">
-                    {(p.first_name?.[0] || '') + (p.last_name?.[0] || p.email?.[0] || '?')}
+            {loading ? (
+              <tr><td colSpan={4} className="p-10 text-center"><Loader2 className="animate-spin text-primary mx-auto" /></td></tr>
+            ) : filteredClients.map(client => (
+              <tr key={client.id} className="hover:bg-creamy/10 transition-colors group">
+                <td className="p-6">
+                  <div className="flex items-center gap-4">
+                    {/* Sécurisation des initiales */}
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold uppercase">
+                      {client.first_name ? client.first_name[0] : '?'}
+                      {client.last_name ? client.last_name[0] : ''}
+                    </div>
+                    <div>
+                      {/* Noms par défaut si null */}
+                      <p className="font-bold text-dark font-sans">
+                        {client.first_name || 'Client'} {client.last_name || 'Sans Nom'}
+                      </p>
+                      <p className="text-xs text-dark/40">{client.email || 'Pas d\'email renseigné'}</p>
+                    </div>
                   </div>
-                  {p.first_name || p.last_name ? `${p.first_name || ''} ${p.last_name || ''}` : 'Profil Incomplet'}
                 </td>
-                <td className="p-4 text-sm text-dark/70 font-sans">{p.email || 'Non renseigné'}</td>
-                <td className="p-4">
-                  <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold ${p.role === 'admin' ? 'bg-primary/10 text-primary' : 'bg-gray-100 text-gray-600'}`}>
-                    {p.role === 'admin' ? <Shield size={14} /> : <User size={14} />}
-                    {p.role}
+                <td className="p-6 text-sm font-medium text-dark/70">
+                  <span className="flex items-center gap-1.5"><ShieldCheck size={16} className="text-emerald-500" /> 1 dossier actif</span>
+                </td>
+                <td className="p-6">
+                  <span className="bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-[10px] font-bold uppercase">
+                    Accès Activé
                   </span>
                 </td>
-                <td className="p-4 text-sm text-dark/60">{new Date(p.created_at).toLocaleDateString('fr-FR')}</td>
+                <td className="p-6 text-right">
+                  <button className="p-2 text-dark/20 hover:text-primary transition-colors">
+                    <ExternalLink size={18} />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
-        {profiles.length === 0 && <p className="text-center p-8 text-dark/50">Aucun utilisateur trouvé.</p>}
+        {filteredClients.length === 0 && !loading && (
+          <div className="p-20 text-center text-dark/30 font-medium">Aucun client trouvé.</div>
+        )}
       </div>
+
+      {/* MODAL CORRIGÉE : Placée à l'intérieur du "return" principal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-dark/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-white rounded-[2.5rem] p-8 max-w-md w-full shadow-2xl">
+            <h2 className="text-2xl font-bold text-dark mb-6">Nouveau client</h2>
+            <form onSubmit={handleInvite} className="space-y-4">
+              <input type="text" placeholder="Prénom" required value={newClient.first_name} onChange={e => setNewClient({...newClient, first_name: e.target.value})} className="w-full bg-creamy/50 border-none rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/20" />
+              <input type="text" placeholder="Nom" required value={newClient.last_name} onChange={e => setNewClient({...newClient, last_name: e.target.value})} className="w-full bg-creamy/50 border-none rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/20" />
+              <input type="email" placeholder="Email" required value={newClient.email} onChange={e => setNewClient({...newClient, email: e.target.value})} className="w-full bg-creamy/50 border-none rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/20" />
+              
+              <div className="flex gap-3 pt-4">
+                <Button type="button" variant="outline" className="flex-1" onClick={() => setIsModalOpen(false)}>Annuler</Button>
+                <Button type="submit" variant="primary" className="flex-1" disabled={inviting}>
+                  {inviting ? <Loader2 className="animate-spin" /> : "Envoyer l'invitation"}
+                </Button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }

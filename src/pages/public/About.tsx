@@ -38,14 +38,14 @@ export default function About() {
                 Notre Histoire
               </motion.span>
               <motion.h1 variants={fadeInUp} className="text-4xl md:text-5xl font-bold text-dark mb-6 leading-tight font-sans">
-                L'humain au cœur de vos <span className="text-primary">démarches administratives</span>.
+                L'humain au cœur de vos <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-400">démarches administratives</span>.
               </motion.h1>
               <motion.p variants={fadeInUp} className="text-lg text-dark/70 mb-8 font-sans leading-relaxed">
                 Né d'une volonté de simplifier un système souvent complexe et anxiogène, AMC s'est donné pour mission d'accompagner les ressortissants étrangers avec transparence, bienveillance et une expertise juridique de pointe.
               </motion.p>
               <motion.div variants={fadeInUp}>
                 <Link to="/contact">
-                  <Button variant="primary" className="h-12 px-8 text-lg">
+                  <Button variant="primaryOrange" className="h-12 px-8 text-lg">
                     Rencontrer notre équipe
                   </Button>
                 </Link>
@@ -176,7 +176,7 @@ export default function About() {
       </section>
 
       {/* --- CTA FINAL --- */}
-      <section className="py-20 bg-primary text-white relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-tr from-orange-500 to-primary-orange text-white relative overflow-hidden">
         <div className="absolute top-[-50%] right-[-10%] w-96 h-96 rounded-full bg-white/10 blur-3xl"></div>
         <div className="container mx-auto max-w-4xl px-4 text-center relative z-10">
           <motion.h2 
@@ -193,7 +193,7 @@ export default function About() {
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
             <Link to="/contact">
-              <Button variant="outline" className="bg-white text-primary border-white hover:bg-creamy hover:text-primary h-14 px-8 text-lg font-bold">
+              <Button variant="outline" className="bg-creamy text-primary-orange border-white hover:bg-creamy hover:text-primary-orange/80 h-14 px-8 text-lg font-bold">
                 Nous contacter maintenant <ArrowRight className="ml-2" size={20} />
               </Button>
             </Link>

@@ -10,7 +10,9 @@ import {
   LogOut,
   ChevronRight,
   Send,
-  MessageSquare
+  MessageSquare, 
+  Languages,
+  Folder
 } from 'lucide-react';
 import { Logo } from '../ui/Logo';
 // import Logo from "/logo.svg"
@@ -24,9 +26,12 @@ export const AdminSidebar = () => {
     { icon: Tag, label: 'OFFRES', path: '/admin/offres' },
     { icon: FileText, label: 'BLOG', path: '/admin/blog' },
     { icon: Mail, label: 'CONTACTS', path: '/admin/contacts' },
+    { icon: Languages, label: 'INTERPRÈTE', path: '/admin/interpretariat' },
     { icon: Send, label: 'NEWSLETTER', path: '/admin/newsletter' },
     { icon: MessageSquare, label: 'AVIS', path: '/admin/avis' },
     { icon: Users, label: 'CLIENTS', path: '/admin/users' },
+    { icon: Folder, label: 'DOSSIER', path: '/admin/dossiers' },
+
   ];
 
   return (
@@ -51,11 +56,11 @@ export const AdminSidebar = () => {
         {/* Logo */}
         <div className="flex flex-col items-center mb-6 shrink-0">
           <div className=" p-1.5 rounded-full mb-1">
-             <Logo className="h-25" />
+             <Logo className="h-5 " />
           </div>
-          <span className={`text-white text-[9px] font-bold tracking-[0.15em] transition-all duration-300 overflow-hidden ${isCollapsed ? 'opacity-0 h-0' : 'opacity-100 h-auto'}`}>
+          {/* <span className={`text-white text-[9px] font-bold tracking-[0.15em] transition-all duration-300 overflow-hidden ${isCollapsed ? 'opacity-0 h-0' : 'opacity-100 h-auto'}`}>
             AMC
-          </span>
+          </span> */}
         </div>
 
         {/* Navigation */}
