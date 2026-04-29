@@ -5,10 +5,14 @@
 
 /* Configuration de ta charte graphique via la nouvelle directive @theme */
 @theme {
-  --color-primary: #00674F;
+  --color-primary: #069494;
   --color-secondary: #00674F;
   --color-creamy: #fffdd0;
   --color-dark: #1a1a1a;
+  /* --color-primary: #00674F;
+  --color-secondary: #00674F;
+  --color-creamy: #fffdd0;
+  --color-dark: #1a1a1a; */
   
   --font-sans: 'Poppins', 'Inter', 'Open Sans', sans-serif;
   
